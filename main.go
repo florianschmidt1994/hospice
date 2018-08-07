@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -109,10 +110,25 @@ func main() {
 		var rawHtml string
 		var parsed string
 
+		var feedTitle = os.Getenv("HOSPICE_FEEDTITLE")
+		if feedTitle == "" {
+			feedTitle = "Reading List"
+		}
+
+		var feedURL = os.Getenv("HOSPICE_FEEDURL")
+		if feedURL == "" {
+			feedURL = "example.com"
+		}
+
+		var feedDescription = os.Getenv("HOSPICE_FEEDDESCRIPTION")
+		if feedDescription == "" {
+			feedDescription = "Your personal reading list"
+		}
+
 		feed := &feeds.Feed{
-			Title:       "My feed",
-			Link:        &feeds.Link{Href: "www.google.de"},
-			Description: "My personal reading list",
+			Title:       feedTitle,
+			Link:        &feeds.Link{Href: feedURL},
+			Description: feedDescription,
 			Created:     time.Now(),
 		}
 
